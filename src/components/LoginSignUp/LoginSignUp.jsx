@@ -10,8 +10,10 @@ import
   Table} from 'reactstrap';
 import axios from "axios";
 
+// Carrega e manipula a página de login, criação de conta e ações relacionadas aos usuários
 const LoginSignUp = () => {
 
+    // Declaração de vários estados para armazenar informações do usuário e gerenciar o estado do componente
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,20 +23,36 @@ const LoginSignUp = () => {
     const [newUsername, setNewUsername] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Carrega as informações do usuário do localStorage quando o componente é montado
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
+        // Este useEffect é executado quando o componente é montado.
+        // Ele verifica se há informações do usuário no localStorage.
+        // Se existirem, ele carrega essas informações e define o estado do usuário com base nesses dados.
+        // Esse useEffect só é executado uma vez, quando o componente é inicializado ([] como dependência).
+        // Ele é utilizado para carregar os dados do usuário que podem estar armazenados no localStorage,
+        // permitindo manter o usuário logado mesmo após o recarregamento da página.
     }, []);
 
+    // Chama a função fetchUsers quando o usuário está autenticado
     useEffect(() => {
         if (user && user.token) {
             fetchUsers();
             setError('');
         }
+        // Este useEffect é executado sempre que há uma alteração no estado do usuário.
+        // Ele verifica se existe um usuário logado e se há um token de autenticação válido.
+        // Se houver um usuário logado e um token válido, ele chama a função fetchUsers(),
+        // que busca todos os usuários da API.
+        // Além disso, ele limpa o estado de erro (caso haja algum erro anteriormente).
+        // Esse useEffect é utilizado para acionar uma ação específica (buscar usuários)
+        // sempre que o usuário está autenticado ou quando ocorrem alterações no estado do usuário.
     }, [user])
     
+    // Função que lida com a ação de login ou criação de conta
     const handleAction = async (e) => {
         e.preventDefault();
 
@@ -116,6 +134,7 @@ const LoginSignUp = () => {
         }
     };
     
+    // Função que lida com a exclusão da conta do usuário
     const handleDelete = async (e) => {
         e.preventDefault();
 
@@ -143,6 +162,7 @@ const LoginSignUp = () => {
         }
     };
 
+    // Função que lida com a edição da conta do usuário
     const handleEditAccount = async (e) => {
         e.preventDefault();
 
@@ -170,6 +190,7 @@ const LoginSignUp = () => {
         }
     }
 
+    // Função que busca todos os usuários
     const fetchUsers = async () => {
         try {
             const response = await axios.get('http://localhost:3000/user', 
@@ -185,6 +206,7 @@ const LoginSignUp = () => {
         }
     }
 
+    // Função que lida com o logout do usuário
     const handleLogout = async (e) => {
         e.preventDefault();
         setUser(null)
@@ -195,23 +217,25 @@ const LoginSignUp = () => {
         setError('')
     };
     
-    
+    // Declaração de vários estados para armazenar informações do programa e gerenciar o estado do componente
     const [action,setAction] = useState("CRIAR CONTA");
     const [buttonText, setButtonText] = useState("Já tenho uma conta");
     const [editing, setEditing] = useState(false)
     
+    // Função que alterna entre a edição da conta do usuário
     const toggleEdit = () => {
         setEditing(editing === true ? false : true);
         setError('');
         fetchUsers();
     }
 
+    // Função que alterna entre ações de criação de conta e login
     const toggleButtonText = () => {
         setAction(action === "CRIAR CONTA" ? "ENTRAR" : "CRIAR CONTA");
         setButtonText(buttonText === "Já tenho uma conta" ? "Não tenho uma conta" : "Já tenho uma conta");
     };
 
-
+    // Retorna a estrutura do componente com base nos estados e funções definidos acima
     return (
         <div>
             {user == null ? (
