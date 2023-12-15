@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import './LoginSignUp.css'
-import 
-{ Form, 
-  FormGroup, 
-  Label, 
-  Input, 
-  Row,
-  Button,
-  Table} from 'reactstrap';
+import {
+Form,
+FormGroup,
+Label,
+Input,
+Row,
+Button,
+Table
+} from 'reactstrap';
 import axios from "axios";
 
 // Carrega e manipula a página de login, criação de conta e ações relacionadas aos usuários
@@ -51,31 +52,34 @@ const LoginSignUp = () => {
         // Esse useEffect é utilizado para acionar uma ação específica (buscar usuários)
         // sempre que o usuário está autenticado ou quando ocorrem alterações no estado do usuário.
     }, [user])
-    
+
     // Função que lida com a ação de login ou criação de conta
     const handleAction = async (e) => {
         e.preventDefault();
 
         if (action === 'ENTRAR') {
+            // Valida se os campos de login estão preenchidos
             if (username.trim().length === 0 ||
-            password.trim().length === 0) {
+                password.trim().length === 0) {
                 setError('Por favor, preencha todos os campos!');
                 return;
             }
 
             try {
+                // Tenta fazer uma requisição POST para a rota de autenticação (login)
                 const response = await axios.post(
-                    'http://localhost:3000/auth', 
-                    JSON.stringify({username,password}),
+                    'http://localhost:3000/auth',
+                    JSON.stringify({ username, password }),
                     {
                         headers: { 'Content-Type': 'application/json' }
                     }
                 );
 
-                setUser(response.data)
-                setError('')
-                localStorage.setItem('user', JSON.stringify(response.data))
-                fetchUsers();
+                // Se a autenticação for bem-sucedida, atualiza o estado do usuário e limpa erros
+                setUser(response.data);
+                setError('');
+                localStorage.setItem('user', JSON.stringify(response.data));
+                fetchUsers(); // Atualiza a lista de usuários após o login
 
             } catch (error) {
                 if (!error?.response) {
@@ -84,19 +88,21 @@ const LoginSignUp = () => {
                     setError('Usuário ou senha inválidos');
                 }
             }
-            
+
         } else if (action === 'CRIAR CONTA') {
+            // Valida se os campos de registro estão preenchidos
             if (name.trim().length === 0 ||
                 username.trim().length === 0 ||
                 password.trim().length === 0) {
-                    setError('Por favor, preencha todos os campos!');
-                    return;
-                }
+                setError('Por favor, preencha todos os campos!');
+                return;
+            }
 
             try {
-                const response = await axios.post (
+                // Tenta fazer uma requisição POST para criar um novo usuário
+                const response = await axios.post(
                     'http://localhost:3000/user',
-                    JSON.stringify({name, username, password}),
+                    JSON.stringify({ name, username, password }),
                     {
                         headers: { 'Content-Type': 'application/json' }
                     }
@@ -105,17 +111,18 @@ const LoginSignUp = () => {
                 if (response.status == 200) {
                     try {
                         const response = await axios.post(
-                            'http://localhost:3000/auth', 
-                            JSON.stringify({username,password}),
+                            'http://localhost:3000/auth',
+                            JSON.stringify({ username, password }),
                             {
                                 headers: { 'Content-Type': 'application/json' }
                             }
                         );
-        
+
+                        // Se o login após a criação do usuário for bem-sucedido, atualiza o estado do usuário
                         setUser(response.data)
                         setError('')
                         localStorage.setItem('user', JSON.stringify(response.data))
-        
+
                     } catch (error) {
                         if (!error?.response) {
                             setError('Erro ao acessar o servidor');
@@ -133,7 +140,7 @@ const LoginSignUp = () => {
             }
         }
     };
-    
+
     // Função que lida com a exclusão da conta do usuário
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -144,16 +151,16 @@ const LoginSignUp = () => {
         }
 
         try {
-            const response = await axios.delete (
+            const response = await axios.delete(
                 `http://localhost:3000/user/${user.user.id}`,
                 {
-                    headers: { 'Authorization': `Bearer ${user.token}`}
+                    headers: { 'Authorization': `Bearer ${user.token}` }
                 }
             );
-            
+
             if (response.status === 200) {
                 handleLogout(e);
-            } 
+            }
 
         } catch (error) {
             if (!error?.response) {
@@ -170,10 +177,10 @@ const LoginSignUp = () => {
 
         try {
             const response = await axios.put(`http://localhost:3000/user/${userId}`,
-            JSON.stringify({name: user.user.name, username: newUsername, password: user.user.password}),
-            {
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
-            });
+                JSON.stringify({ name: user.user.name, username: newUsername, password: user.user.password }),
+                {
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+                });
 
             if (response.status === 200) {
                 setUsername(newUsername);
@@ -193,14 +200,14 @@ const LoginSignUp = () => {
     // Função que busca todos os usuários
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/user', 
-            {
-                headers: { 'Authorization': `Bearer ${user.token}` }
-            });
+            const response = await axios.get('http://localhost:3000/user',
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` }
+                });
             setUsers(response.data);
         } catch (error) {
             console.log(error)
-            if (!error?.response) { 
+            if (!error?.response) {
                 setError('Erro ao buscar usuários');
             }
         }
@@ -216,12 +223,12 @@ const LoginSignUp = () => {
         setPassword('')
         setError('')
     };
-    
+
     // Declaração de vários estados para armazenar informações do programa e gerenciar o estado do componente
-    const [action,setAction] = useState("CRIAR CONTA");
+    const [action, setAction] = useState("CRIAR CONTA");
     const [buttonText, setButtonText] = useState("Já tenho uma conta");
     const [editing, setEditing] = useState(false)
-    
+
     // Função que alterna entre a edição da conta do usuário
     const toggleEdit = () => {
         setEditing(editing === true ? false : true);
@@ -248,7 +255,7 @@ const LoginSignUp = () => {
                         </div>
                         <Form>
                             <Row>
-                                { action  === 'ENTRAR'?<div></div>:
+                                {action === 'ENTRAR' ? <div></div> :
                                     <FormGroup className="inputbox">
                                         <Label for="name">
                                             Nome Completo
@@ -292,9 +299,9 @@ const LoginSignUp = () => {
                                         aria-required
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
-                                <p className="erro">
-                                    {error}
-                                </p>
+                                    <p className="erro">
+                                        {error}
+                                    </p>
                                 </FormGroup>
                             </Row>
                             <Button
@@ -303,7 +310,7 @@ const LoginSignUp = () => {
                                 {action}
                             </Button>
                         </Form>
-                        <Button 
+                        <Button
                             className='aaa' onClick={toggleButtonText}
                         >
                             <span>
@@ -314,47 +321,47 @@ const LoginSignUp = () => {
                 </div>
             ) : (
                 <div>
-                    { editing ? (
+                    {editing ? (
                         <div className="conteudo">
-                        <div className='box'>
-                            <div className="h2-box">
-                                <h2 className='texto-motivacional'>
-                                    EDITAR CONTA
-                                </h2>
-                            </div>
-                            <Form>
-                                <Row>
-                                    <FormGroup className="inputbox">
-                                        <Label for='username'>
-                                            Novo username
-                                        </Label>
-                                        <Input
-                                            id='username'
-                                            name='username'
-                                            placeholder='Digite o seu Username'
-                                            type='text'
-                                            required
-                                            onChange={(e) => setNewUsername(e.target.value)}
-                                        />
-                                    </FormGroup>
-                                    <p className="erro">
-                                        {error}
-                                    </p>
-                                </Row>
+                            <div className='box'>
+                                <div className="h2-box">
+                                    <h2 className='texto-motivacional'>
+                                        EDITAR CONTA
+                                    </h2>
+                                </div>
+                                <Form>
+                                    <Row>
+                                        <FormGroup className="inputbox">
+                                            <Label for='username'>
+                                                Novo username
+                                            </Label>
+                                            <Input
+                                                id='username'
+                                                name='username'
+                                                placeholder='Digite o seu Username'
+                                                type='text'
+                                                required
+                                                onChange={(e) => setNewUsername(e.target.value)}
+                                            />
+                                        </FormGroup>
+                                        <p className="erro">
+                                            {error}
+                                        </p>
+                                    </Row>
+                                    <Button
+                                        className='button-login' onClick={(e) => handleEditAccount(e)}
+                                    >
+                                        Aplicar Mudanças
+                                    </Button>
+                                </Form>
                                 <Button
-                                    className='button-login' onClick={(e) => handleEditAccount(e)}
+                                    className='aaa' onClick={toggleEdit}
                                 >
-                                    Aplicar Mudanças
+                                    <span>
+                                        Cancelar
+                                    </span>
                                 </Button>
-                            </Form>
-                            <Button 
-                                className='aaa' onClick={toggleEdit}
-                            >
-                                <span>
-                                    Cancelar
-                                </span>
-                            </Button>
-                        </div>
+                            </div>
                         </div>
                     ) : (
                         <div>
@@ -382,7 +389,7 @@ const LoginSignUp = () => {
                                             Editar conta!
                                         </span>
                                     </Button>
-                                    <a 
+                                    <a
                                         className="a-logout"
                                         onClick={(e) => handleLogout(e)}
                                     >
@@ -396,9 +403,9 @@ const LoginSignUp = () => {
                                         Todos os usuários
                                     </h3>
                                     <Input
-                                    type="text"
-                                    placeholder="Pesquisar Username"
-                                    onChange={e => setSearchTerm(e.target.value)}
+                                        type="text"
+                                        placeholder="Pesquisar Username"
+                                        onChange={e => setSearchTerm(e.target.value)}
                                     >
                                     </Input>
                                 </div>

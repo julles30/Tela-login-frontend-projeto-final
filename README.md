@@ -3,10 +3,10 @@ O frontend deste projeto consiste em uma aplicação web para avaliação de fil
 
 ## Tecnologias Utilizadas
 
-### React: Biblioteca JavaScript para construção da interface de usuário.
-### Axios: Cliente HTTP para realizar requisições à API do backend.
-### reactstrap: Biblioteca de componentes para React baseada no Bootstrap.
-### HTML, CSS, JavaScript: Linguagens para estrutura, estilo e interatividade da aplicação.
+#### React: Biblioteca JavaScript para construção da interface de usuário.
+#### Axios: Cliente HTTP para realizar requisições à API do backend.
+#### reactstrap: Biblioteca de componentes para React baseada no Bootstrap.
+#### HTML, CSS, JavaScript: Linguagens para estrutura, estilo e interatividade da aplicação.
 
 ## Como Executar o Frontend
 
