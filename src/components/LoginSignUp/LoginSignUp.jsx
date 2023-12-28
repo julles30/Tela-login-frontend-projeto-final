@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import './LoginSignUp.css'
 import {
-Form,
-FormGroup,
-Label,
-Input,
-Row,
-Button,
-Table
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Row,
+    Button,
+    Table
 } from 'reactstrap';
 import axios from "axios";
 
