@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './LoginSignUp.css'
+import { Link } from 'react-router-dom';
 import {
     Form,
     FormGroup,
@@ -244,7 +245,7 @@ const LoginSignUp = () => {
 
     // Retorna a estrutura do componente com base nos estados e funções definidos acima
     return (
-        <div>
+        <div className="login-site">
             {user == null ? (
                 <div className="conteudo">
                     <div className='box'>
@@ -317,6 +318,9 @@ const LoginSignUp = () => {
                                 {buttonText}
                             </span>
                         </Button>
+                        <Link className="aaa" to={"/"}>
+                            Voltar
+                        </Link>
                     </div>
                 </div>
             ) : (
@@ -395,6 +399,9 @@ const LoginSignUp = () => {
                                     >
                                         Logout
                                     </a>
+                                    <Link to={"/"}>
+                                        Voltar
+                                    </Link>
                                 </div>
                             </div>
                             <div className="site">

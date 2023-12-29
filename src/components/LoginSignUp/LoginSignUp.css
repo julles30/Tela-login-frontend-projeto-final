@@ -1,3 +1,10 @@
+
+.login-site {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+}
+
 .conteudo {
     display: flex;
     flex-direction: column;
@@ -95,6 +102,7 @@
     background-color: white;
     border: none;
     padding: 0px;
+    text-decoration: none;
 }
 
 .aaa:hover {
@@ -126,7 +134,7 @@
     align-items: center;
     display: flex;
     justify-content: space-around;
-    width: 60%;
+    width: 65%;
     height: 100%;
 }
 
@@ -142,6 +150,7 @@
 .edit-btn {
     background-color: blue;
     border: none;
+    margin: 0 10px;
 }
 
 .edit-btn:hover {
@@ -150,6 +159,7 @@
 
 .a-logout {
     cursor: pointer;
+    padding: 0 10px 0 0;
 }
 
 .pesquisar {
