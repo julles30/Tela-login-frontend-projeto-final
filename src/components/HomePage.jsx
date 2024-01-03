@@ -222,7 +222,7 @@ function HomePage() {
                                 <tbody>
                                     {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map(movie => (
                                         <tr key={movie.id}>
-                                            <td>{movie.title}</td>
+                                            <td><Link to={`/movie/${movie.id}`}>{movie.title}</Link></td>
                                             <td>{movie.director}</td>
                                             <td>{formatDate(movie.releasedate)}</td>
                                             <td>{movie.duration} min</td>
