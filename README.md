@@ -12,7 +12,7 @@ O frontend deste projeto consiste em uma aplicação web para avaliação de fil
 
 1. Certifique-se de ter o Node.js instalado.
 2. Clone o repositório do frontend.
-3. No diretório do projeto, execute o comando npm install para instalar as dependências.
+3. No diretório do projeto, execute o comando `npm install` para instalar as dependências.
 4. Rode o comando `npm i react-rating-stars-component` para instalar a dependência que não vem no `npm i`.
 5. Utilize `npm start` para iniciar a aplicação em um servidor local.
 
